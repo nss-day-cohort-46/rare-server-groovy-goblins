@@ -1,6 +1,8 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 # from animals import (get_all_animals, get_single_animal, create_animal,
+from users.request import create_user
+# from animals import (get_all_animals, get_single_animal, create_animal,
 #                     delete_animal, update_animal, get_animals_by_location_id, get_animals_by_status)
 # from locations import (get_all_locations, get_single_location,
 #                     create_location, delete_location, update_location)
@@ -156,8 +158,13 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Add a new animal to the list. Don't worry about
         # the orange squiggle, you'll define the create_animal
         # function next.
+
         if resource == "login":
             new_item = get_user_by_email(post_body)
+
+        if resource == "register":
+            new_item = create_user(post_body)
+            # pass
 
         if resource == "locations":
             # new_item = create_location(post_body)
