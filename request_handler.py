@@ -1,6 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from posts import get_all_posts
+from posts import get_all_posts, get_posts_by_user
 
 
 # Here's a class. It inherits from another class.
@@ -110,7 +110,6 @@ class HandleRequests(BaseHTTPRequestHandler):
             # email as a filtering value?
             if key == "user_id" and resource == "posts":
                 response = get_posts_by_user(value)
-                pass
             if key == "location_id" and resource == "animals":
                 # response = get_animals_by_location_id(value)
                 pass
