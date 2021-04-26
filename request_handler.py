@@ -1,5 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from posts import get_all_posts
 
 
 # Here's a class. It inherits from another class.
@@ -72,8 +73,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                     # response = get_single_post(id)
                     pass
                 else:
-                    # response = get_all_posts()
-                    pass
+                    response = get_all_posts()
 
             if resource == "locations":
                 if id is not None:
