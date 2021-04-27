@@ -2,6 +2,7 @@ import sqlite3
 import json
 from models import Post
 
+
 def get_all_posts():
     with sqlite3.connect("./rare.db") as conn:
 
@@ -16,8 +17,13 @@ def get_all_posts():
             p.title,
             p.publication_date,
             p.content,
-            p.approved
+            p.approved,
+            u.first_name, 
+            u.last_name,
+            c.label
         FROM posts p
+        JOIN users u ON u.id = p.user_id
+        JOIN Categories c ON c.id = p.category_id
         """)
 
         posts = []
@@ -29,10 +35,11 @@ def get_all_posts():
             post = Post(row['id'], row['user_id'], row['category_id'],
                         row['title'], row['publication_date'], row['content'],
                         row['approved'])
-            
+
             posts.append(post.__dict__)
 
     return json.dumps(posts)
+
 
 def get_posts_by_user(user_id):
     with sqlite3.connect("./rare.db") as conn:
@@ -48,8 +55,13 @@ def get_posts_by_user(user_id):
             p.title,
             p.publication_date,
             p.content,
-            p.approved
+            p.approved,
+            u.first_name, 
+            u.last_name,
+            c.label
         FROM posts p
+        JOIN users u ON u.id = p.user_id
+        JOIN Categories c ON c.id = p.category_id
         WHERE p.user_id = ?
         """, (user_id))
 
@@ -62,7 +74,7 @@ def get_posts_by_user(user_id):
             post = Post(row['id'], row['user_id'], row['category_id'],
                         row['title'], row['publication_date'], row['content'],
                         row['approved'])
-            
+
             posts.append(post.__dict__)
 
     return json.dumps(posts)
