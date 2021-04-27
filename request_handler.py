@@ -1,5 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from posts.request import create_post
 # from animals import (get_all_animals, get_single_animal, create_animal,
 from users.request import create_user
 
@@ -174,6 +175,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "register":
             new_item = create_user(post_body)
+            # pass
+        if resource == "posts":
+            new_item = create_post(post_body)
             # pass
         if resource == "categories":
             new_item = create_category(post_body)

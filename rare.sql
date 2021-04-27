@@ -101,3 +101,4 @@ VALUES(
     DATE(),
     'True'
   );
+SELECT *  FROM Posts;
