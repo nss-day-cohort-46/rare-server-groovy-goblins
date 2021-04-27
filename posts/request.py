@@ -75,11 +75,11 @@ def get_posts_by_user(user_id):
                         row['title'], row['publication_date'], row['content'],
                         row['approved'])
 
-            # author = User(first_name = row['first_name'], )
-            # category = Category()
+            author = User(first_name = row['first_name'], last_name = row['last_name'])
+            category = Category(row['category_id'], row['label'])
 
-            # post.author = author
-            # post.category = category
+            post.author = author.__dict__
+            post.category = category.__dict__
 
             posts.append(post.__dict__)
 

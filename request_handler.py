@@ -142,7 +142,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             if key == "status" and resource == "animals":
                 # response = f"{get_animals_by_status(value)}"
                 pass
-        print(response)
+            
         self.wfile.write(response.encode())
 
     # Here's a method on the class that overrides the parent's method.
