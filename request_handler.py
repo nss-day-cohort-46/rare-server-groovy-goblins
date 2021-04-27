@@ -86,7 +86,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                     # response = get_single_post(id)
                     pass
                 else:
-                    response = get_all_users()
+                    response = get_all_posts()
             
             if resource == "users":
                 if id is not None:
