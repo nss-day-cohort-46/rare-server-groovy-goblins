@@ -120,7 +120,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                 # response = f"{get_animals_by_status(value)}"
                 pass
 
-        self.wfile.write((response).encode())
+        self.wfile.write(f"{response}".encode())
 
     # Here's a method on the class that overrides the parent's method.
     # It handles any POST request.
@@ -155,7 +155,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             # new_item = create_customer(post_body)
             pass
 
-        # Encode the new animal and send in response
+
         self.wfile.write(f"{new_item}".encode())
 
 
