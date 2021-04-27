@@ -1,5 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from posts.request import create_post
 from users.request import create_user
 # from animals import (get_all_animals, get_single_animal, create_animal, 
 #                     delete_animal, update_animal, get_animals_by_location_id, get_animals_by_status)
@@ -155,9 +156,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "register":
             new_item = create_user(post_body)
             # pass
-        if resource == "locations":
-            # new_item = create_location(post_body)
-            pass
+        if resource == "posts":
+            new_item = create_post(post_body)
+            # pass
         if resource == "employees":
             # new_item = create_employee(post_body)
             pass
