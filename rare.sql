@@ -101,4 +101,3 @@ VALUES(
     DATE(),
     'True'
   );
--- SELECT *  FROM Users;
