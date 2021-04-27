@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from models import Post
+from models import Post, User, Category
 
 
 def get_all_posts():
@@ -75,11 +75,11 @@ def get_posts_by_user(user_id):
                         row['title'], row['publication_date'], row['content'],
                         row['approved'])
 
-            author = User(first_name = row['first_name'], )
-            category = Category()
+            # author = User(first_name = row['first_name'], )
+            # category = Category()
 
-            post.author = author
-            post.category = category
+            # post.author = author
+            # post.category = category
 
             posts.append(post.__dict__)
 

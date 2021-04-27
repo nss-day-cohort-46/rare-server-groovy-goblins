@@ -1,12 +1,16 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from posts import get_all_posts, get_posts_by_user
-
+from users.request import create_user
+from categories import get_all_categories, create_category
+from users import get_all_users, get_user_by_email
 
 # Here's a class. It inherits from another class.
 # For now, think of a class as a container for functions that
 # work together for a common purpose. In this case, that
 # common purpose is to respond to HTTP requests from a client.
+
+
 class HandleRequests(BaseHTTPRequestHandler):
     def parse_url(self, path):
         path_params = path.split("/")
@@ -22,7 +26,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             key = pair[0]  # 'email'
             value = pair[1]  # 'jenna@solis.com'
 
-            return ( resource, key, value )
+            return (resource, key, value)
 
         # No query string parameter
         else:
@@ -48,8 +52,10 @@ class HandleRequests(BaseHTTPRequestHandler):
     def do_OPTIONS(self):
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
-        self.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept')
+        self.send_header('Access-Control-Allow-Methods',
+                         'GET, POST, PUT, DELETE')
+        self.send_header('Access-Control-Allow-Headers',
+                         'X-Requested-With, Content-Type, Accept')
         self.end_headers()
 
     # Here's a method on the class that overrides the parent's method.
@@ -66,14 +72,27 @@ class HandleRequests(BaseHTTPRequestHandler):
         # items in it, which means the request was for
         # `/animals` or `/animals/2`
         if len(parsed) == 2:
-            ( resource, id ) = parsed
+            (resource, id) = parsed
+
+            if resource == "categories":
+                if id is not None:
+                    # response = get_single_animal(id)
+                    pass
+            else:
+                response = get_all_categories()
 
             if resource == "posts":
                 if id is not None:
                     # response = get_single_post(id)
                     pass
                 else:
-                    response = get_all_posts()
+                    response = get_all_users()
+            
+            if resource == "users":
+                if id is not None:
+                    pass
+                else:
+                    response = get_all_users()
 
             if resource == "locations":
                 if id is not None:
@@ -90,7 +109,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                 else:
                     # response = get_all_employees()
                     pass
-            
+
             if resource == "customers":
                 if id is not None:
                     # response = get_single_customer(id)
@@ -98,18 +117,22 @@ class HandleRequests(BaseHTTPRequestHandler):
                 else:
                     # response = get_all_customers()
                     pass
-        
+
         # Response from parse_url() is a tuple with 3
         # items in it, which means the request was for
         # `/resource?parameter=value`
         elif len(parsed) == 3:
-            ( resource, key, value ) = parsed
+            (resource, key, value) = parsed
 
             # Is the resource `customers` and was there a
             # query parameter that specified the customer
             # email as a filtering value?
             if key == "user_id" and resource == "posts":
                 response = get_posts_by_user(value)
+                
+            if key == "email" and resource == "users":
+                response = get_user_by_email(value)
+
             if key == "location_id" and resource == "animals":
                 # response = get_animals_by_location_id(value)
                 pass
@@ -142,12 +165,16 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Add a new animal to the list. Don't worry about
         # the orange squiggle, you'll define the create_animal
         # function next.
-        if resource == "animals":
-            # new_item = create_animal(post_body)
-            pass
-        if resource == "locations":
-            # new_item = create_location(post_body)
-            pass
+
+        if resource == "login":
+            new_item = get_user_by_email(post_body)
+
+        if resource == "register":
+            new_item = create_user(post_body)
+            # pass
+        if resource == "categories":
+            new_item = create_category(post_body)
+
         if resource == "employees":
             # new_item = create_employee(post_body)
             pass
@@ -158,11 +185,11 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         self.wfile.write(f"{new_item}".encode())
 
-
     # Here's a method on the class that overrides the parent's method.
     # It handles any PUT request.
+
     def do_PUT(self):
-        
+
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
         post_body = json.loads(post_body)
@@ -218,10 +245,13 @@ class HandleRequests(BaseHTTPRequestHandler):
 
 # This function is not inside the class. It is the starting
 # point of this application.
+
+
 def main():
     host = ''
     port = 8088
     HTTPServer((host, port), HandleRequests).serve_forever()
+
 
 if __name__ == "__main__":
     main()
