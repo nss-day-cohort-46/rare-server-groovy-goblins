@@ -1,5 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
+# from animals import (get_all_animals, get_single_animal, create_animal,
 from users.request import create_user
 
 from categories import get_all_categories, create_category
@@ -12,6 +13,8 @@ from categories import get_all_categories, create_category
 #                     create_employee, delete_employee, update_employee, get_employees_by_location_id)
 # from customers import (get_all_customers, get_single_customer, create_customer,
 #                     delete_customer, update_customer, get_customers_by_email)
+
+from users import get_all_users, get_user_by_email
 
 # Here's a class. It inherits from another class.
 # For now, think of a class as a container for functions that
@@ -86,8 +89,16 @@ class HandleRequests(BaseHTTPRequestHandler):
                 if id is not None:
                     # response = get_single_animal(id)
                     pass
+            else:
+                response = get_all_categories()
+
+            if resource == "users":
+                if id is not None:
+                    # response = get_single_animal(id)
+                    pass
                 else:
-                    response = get_all_categories()
+                    response = get_all_users()
+                    pass
 
             if resource == "locations":
                 if id is not None:
@@ -122,9 +133,9 @@ class HandleRequests(BaseHTTPRequestHandler):
             # Is the resource `customers` and was there a
             # query parameter that specified the customer
             # email as a filtering value?
-            if key == "email" and resource == "customers":
-                # response = get_customers_by_email(value)
-                pass
+            if key == "email" and resource == "users":
+                response = get_user_by_email(value)
+
             if key == "location_id" and resource == "animals":
                 # response = get_animals_by_location_id(value)
                 pass
@@ -157,6 +168,10 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Add a new animal to the list. Don't worry about
         # the orange squiggle, you'll define the create_animal
         # function next.
+
+        if resource == "login":
+            new_item = get_user_by_email(post_body)
+
         if resource == "register":
             new_item = create_user(post_body)
             # pass
