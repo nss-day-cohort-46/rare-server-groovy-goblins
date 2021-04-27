@@ -1,6 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from posts import get_all_posts, get_posts_by_user
+from posts import get_all_posts, get_posts_by_user, create_post
 from users.request import create_user
 from categories import get_all_categories, create_category
 from users import get_all_users, get_user_by_email
@@ -171,6 +171,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "register":
             new_item = create_user(post_body)
+            # pass
+        if resource == "posts":
+            new_item = create_post(post_body)
             # pass
         if resource == "categories":
             new_item = create_category(post_body)
