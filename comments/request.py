@@ -14,7 +14,8 @@ def get_all_comments():
                 c.id, 
                 c.post_id, 
                 c.author_id, 
-                c.content
+                c.content,
+                c.created_on
             FROM Comments c
         """)
 
@@ -24,26 +25,15 @@ def get_all_comments():
 
         for row in data:
             category = Comment(
-                row['id'], row['post_id'], row['author_id'], row['content']
+                row['id'], row['post_id'], row['author_id'], row['content'], row['created_on']
             )
             categories.append(category.__dict__)
 
         return json.dumps(categories)
 
 
-def create_category(new_category):
-    """
-    CREATE TABLE "Categories" (
-        "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-        "label" varchar
-    );
-    INSERT INTO Categories ('label')
-    VALUES ('News');
-    """
+def create_comment(new_comment):
 
-    print("creating new category")
-    print(new_category)
-    print(type(new_category))
     with sqlite3.connect("./rare.db") as conn:
         db_cursor = conn.cursor()
 
