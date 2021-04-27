@@ -2,6 +2,9 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 # from animals import (get_all_animals, get_single_animal, create_animal,
 from users.request import create_user
+
+from categories import get_all_categories, create_category
+
 # from animals import (get_all_animals, get_single_animal, create_animal,
 #                     delete_animal, update_animal, get_animals_by_location_id, get_animals_by_status)
 # from locations import (get_all_locations, get_single_location,
@@ -81,6 +84,13 @@ class HandleRequests(BaseHTTPRequestHandler):
         # `/animals` or `/animals/2`
         if len(parsed) == 2:
             (resource, id) = parsed
+
+            if resource == "categories":
+                if id is not None:
+                    # response = get_single_animal(id)
+                    pass
+            else:
+                response = get_all_categories()
 
             if resource == "users":
                 if id is not None:
@@ -165,10 +175,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "register":
             new_item = create_user(post_body)
             # pass
+        if resource == "categories":
+            new_item = create_category(post_body)
 
-        if resource == "locations":
-            # new_item = create_location(post_body)
-            pass
         if resource == "employees":
             # new_item = create_employee(post_body)
             pass
