@@ -1,3 +1,4 @@
+from comments.request import get_all_comments
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 # from animals import (get_all_animals, get_single_animal, create_animal,
@@ -100,13 +101,13 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = get_all_users()
                     pass
 
-            if resource == "locations":
+            if resource == "comments":
                 if id is not None:
                     # response = get_single_location(id)
                     pass
                 else:
-                    # response = get_all_locations()
-                    pass
+                    response = get_all_comments()
+                    
 
             if resource == "employees":
                 if id is not None:
