@@ -101,4 +101,4 @@ VALUES(
     DATE(),
     'True'
   );
-SELECT *  FROM Posts;
+SELECT *  FROM Categories;

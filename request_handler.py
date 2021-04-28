@@ -17,10 +17,7 @@ from categories import get_all_categories, create_category
 
 from users import get_all_users, get_user_by_email
 
-# Here's a class. It inherits from another class.
-# For now, think of a class as a container for functions that
-# work together for a common purpose. In this case, that
-# common purpose is to respond to HTTP requests from a client.
+from tags import create_tag
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -90,8 +87,8 @@ class HandleRequests(BaseHTTPRequestHandler):
                 if id is not None:
                     # response = get_single_animal(id)
                     pass
-            else:
-                response = get_all_categories()
+                else:
+                    response = get_all_categories()
 
             if resource == "users":
                 if id is not None:
@@ -185,9 +182,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "employees":
             # new_item = create_employee(post_body)
             pass
-        if resource == "customers":
-            # new_item = create_customer(post_body)
-            pass
+        if resource == "tags":
+            new_item = create_tag(post_body)
 
         # Encode the new animal and send in response
         self.wfile.write(f"{new_item}".encode())
