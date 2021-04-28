@@ -74,31 +74,28 @@ CREATE TABLE "Categories" (
   "label" varchar
 );
 INSERT INTO Categories ('label')
-VALUES ('News');
+VALUES ('Fullstack trash');
 INSERT INTO Tags ('label')
 VALUES ('JavaScript');
 INSERT INTO Reactions ('label', 'image_url')
 VALUES ('happy', 'https://pngtree.com/so/happy');
-INSERT INTO Users (
-    'first_name',
-    'last_name',
-    'email',
-    'bio',
-    'username',
-    'password',
-    'profile_image_url',
-    'created_on',
-    'active'
+INSERT INTO Posts (
+    "user_id",
+    "category_id",
+    "title",
+    "publication_date",
+    "image_url",
+    "content",
+    "approved"
   )
 VALUES(
-    'test',
-    'mctest',
-    'test@test.com',
-    'I test things.',
-    'test@test.com',
-    'test',
+    1,
+    1,
+    'post Title',
+    DATETIME(),
     '',
-    DATE(),
-    'True'
+    'post content',
+    true
   );
-SELECT *  FROM Posts;
+-- SELECT *  FROM Users;
+SELECT * From Categories;
