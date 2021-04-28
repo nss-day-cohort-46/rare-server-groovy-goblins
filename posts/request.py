@@ -24,6 +24,7 @@ def get_all_posts():
         FROM posts p
         JOIN users u ON u.id = p.user_id
         JOIN Categories c ON c.id = p.category_id
+        WHERE p.approved = 1
         ORDER BY p.publication_date
         """)
 
