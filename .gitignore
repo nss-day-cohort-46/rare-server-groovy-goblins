@@ -153,7 +153,7 @@ Thumbs.db
 
 # End of https://www.toptal.com/developers/gitignore/api/python
 rare.db
-rare*.sql
+*.sql
 Pipfile*
 .vscode
 
