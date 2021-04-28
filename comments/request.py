@@ -19,17 +19,17 @@ def get_all_comments():
             FROM Comments c
         """)
 
-        categories = []
+        comments = []
 
         data = db_cursor.fetchall()
 
         for row in data:
-            category = Comment(
+            comment = Comment(
                 row['id'], row['post_id'], row['author_id'], row['content'], row['created_on']
             )
-            categories.append(category.__dict__)
+            comments.append(comment.__dict__)
 
-        return json.dumps(categories)
+        return json.dumps(comments)
 
 
 def create_comment(new_comment):
@@ -38,13 +38,13 @@ def create_comment(new_comment):
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
-        INSERT INTO Categories( 
-            label
+        INSERT INTO Comments( 
+            post_id, author_id, content, created_on
         )
-        VALUES ( ? );
-        """, (new_category['label'], ))
+        VALUES ( ?, ?, ?, DATETIME() );
+        """, (new_comment['post_id'], new_comment['author_id'], new_comment['content'], ))
 
         id = db_cursor.lastrowid
-        new_category['id'] = id
+        new_comment['id'] = id
 
-    return json.dumps(new_category)
+    return json.dumps(new_comment)

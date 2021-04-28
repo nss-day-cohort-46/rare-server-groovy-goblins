@@ -1,4 +1,4 @@
-from comments.request import get_all_comments
+from comments.request import create_comment, get_all_comments
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 # from animals import (get_all_animals, get_single_animal, create_animal,
@@ -179,9 +179,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "categories":
             new_item = create_category(post_body)
 
-        if resource == "employees":
-            # new_item = create_employee(post_body)
-            pass
+        if resource == "comments":
+            new_item = create_comment(post_body)
+            
         if resource == "customers":
             # new_item = create_customer(post_body)
             pass
