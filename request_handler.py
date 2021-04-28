@@ -1,20 +1,8 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from posts.request import create_post
-# from animals import (get_all_animals, get_single_animal, create_animal,
+from posts import get_all_posts, get_posts_by_user, create_post
 from users.request import create_user
-
 from categories import get_all_categories, create_category
-
-# from animals import (get_all_animals, get_single_animal, create_animal,
-#                     delete_animal, update_animal, get_animals_by_location_id, get_animals_by_status)
-# from locations import (get_all_locations, get_single_location,
-#                     create_location, delete_location, update_location)
-# from employees import (get_all_employees, get_single_employee,
-#                     create_employee, delete_employee, update_employee, get_employees_by_location_id)
-# from customers import (get_all_customers, get_single_customer, create_customer,
-#                     delete_customer, update_customer, get_customers_by_email)
-
 from users import get_all_users, get_user_by_email
 
 # Here's a class. It inherits from another class.
@@ -92,13 +80,19 @@ class HandleRequests(BaseHTTPRequestHandler):
                     pass
                 else:
                     response = get_all_categories()
+
+            if resource == "posts":
+                if id is not None:
+                    # response = get_single_post(id)
+                    pass
+                else:
+                    response = get_all_posts()
+
             if resource == "users":
                 if id is not None:
-                    # response = get_single_animal(id)
                     pass
                 else:
                     response = get_all_users()
-                    pass
 
             if resource == "locations":
                 if id is not None:
@@ -133,6 +127,9 @@ class HandleRequests(BaseHTTPRequestHandler):
             # Is the resource `customers` and was there a
             # query parameter that specified the customer
             # email as a filtering value?
+            if key == "user_id" and resource == "posts":
+                response = get_posts_by_user(value)
+
             if key == "email" and resource == "users":
                 response = get_user_by_email(value)
 
@@ -146,7 +143,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                 # response = f"{get_animals_by_status(value)}"
                 pass
 
-        self.wfile.write((response).encode())
+        self.wfile.write(response.encode())
 
     # Here's a method on the class that overrides the parent's method.
     # It handles any POST request.
@@ -188,7 +185,6 @@ class HandleRequests(BaseHTTPRequestHandler):
             # new_item = create_customer(post_body)
             pass
 
-        # Encode the new animal and send in response
         self.wfile.write(f"{new_item}".encode())
 
     # Here's a method on the class that overrides the parent's method.
