@@ -45,6 +45,7 @@ def get_all_users():
 
 def get_user_by_email(obj):
     email = obj["username"]
+    _pw = obj["password"]
 
     with sqlite3.connect("./rare.db") as conn:
         conn.row_factory = sqlite3.Row
@@ -52,6 +53,7 @@ def get_user_by_email(obj):
 
         db_cursor.execute("""
         SELECT
+            u.id,
             u.email,
             u.password
         FROM users u
@@ -64,15 +66,20 @@ def get_user_by_email(obj):
             # if you do not check for data you will need to
             # do a try/catch when creating a User instance.
             user = User(
-                data['email'],
-                data['password'])
+                id=data['id'],
+                username=data['email'],
+                password=data['password'])
+
+            if(user.password != _pw):
+                user = False
         else:
             user = False
 
         # client-side response needs object
         # if ("valid" in res && res.valid)
+        # "token" - for localStorage.setItem
         if(user):
-            res = {"valid": True}
+            res = {"valid": True, "token": user.id}
         else:
             res = {"valid": False}
 
