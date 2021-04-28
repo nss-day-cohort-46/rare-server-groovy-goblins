@@ -53,6 +53,7 @@ def get_user_by_email(obj):
 
         db_cursor.execute("""
         SELECT
+            u.id,
             u.email,
             u.password
         FROM users u
@@ -65,6 +66,7 @@ def get_user_by_email(obj):
             # if you do not check for data you will need to
             # do a try/catch when creating a User instance.
             user = User(
+                id=data['id'],
                 username=data['email'],
                 password=data['password'])
 
@@ -77,7 +79,7 @@ def get_user_by_email(obj):
         # if ("valid" in res && res.valid)
         # "token" - for localStorage.setItem
         if(user):
-            res = {"valid": True, "token": user.username}
+            res = {"valid": True, "token": user.id}
         else:
             res = {"valid": False}
 
