@@ -1,3 +1,4 @@
+from posts.request import edit_post
 from comments.request import create_comment, get_all_comments
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -202,9 +203,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         (resource, id) = self.parse_url(self.path)
         success = False
         # Delete a single animal from the list
-        if resource == "animals":
-            # update_animal(id, post_body)
-            pass
+        if resource == "posts":
+            edit_post(id, post_body)
         if resource == "customers":
             # update_customer(id, post_body)
             pass
