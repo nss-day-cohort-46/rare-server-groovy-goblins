@@ -2,9 +2,8 @@ from comments.request import create_comment, get_all_comments
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from posts import get_all_posts, get_posts_by_user, create_post
-from users.request import create_user
-from categories import get_all_categories, create_category
-from users import get_all_users, get_user_by_email
+from categories import get_all_categories, create_category, delete_category
+from users import get_all_users, get_user_by_email, create_user
 
 # Here's a class. It inherits from another class.
 # For now, think of a class as a container for functions that
@@ -231,8 +230,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         (resource, id) = self.parse_url(self.path)
 
         # Delete a single animal from the list
-        if resource == "animals":
-            # delete_animal(id)
+        if resource == "category":
+            delete_category(id)
             pass
         if resource == "locations":
             # delete_location(id)

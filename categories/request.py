@@ -32,10 +32,6 @@ def get_all_categories():
 
 def create_category(new_category):
     """
-    CREATE TABLE "Categories" (
-        "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-        "label" varchar
-    );
     INSERT INTO Categories ('label')
     VALUES ('News');
     """
@@ -57,3 +53,12 @@ def create_category(new_category):
         new_category['id'] = id
 
     return json.dumps(new_category)
+
+def delete_category(id):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM Categories
+        WHERE id = ?
+        """, ( id, ))
