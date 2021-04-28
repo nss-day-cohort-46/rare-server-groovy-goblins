@@ -89,13 +89,51 @@ INSERT INTO Posts (
     "approved"
   )
 VALUES(
+    2,
     1,
-    1,
-    'post Title',
+    'post to be deleted 7',
     DATETIME(),
     '',
-    'post content',
+    'post content 7',
+    true
+  );
+INSERT INTO Posts (
+    "user_id",
+    "category_id",
+    "title",
+    "publication_date",
+    "image_url",
+    "content",
+    "approved"
+  )
+VALUES(
+    2,
+    1,
+    'aldo to deete 8',
+    DATETIME(),
+    '',
+    'post content 8',
+    true
+  );
+INSERT INTO Posts (
+    "user_id",
+    "category_id",
+    "title",
+    "publication_date",
+    "image_url",
+    "content",
+    "approved"
+  )
+VALUES(
+    2,
+    1,
+    'last to delete 9',
+    DATETIME(),
+    '',
+    'post content 9',
     true
   );
 -- SELECT *  FROM Users;
-SELECT * From Categories;
+-- SELECT * From Categories;
+SELECT *
+FROM Posts;

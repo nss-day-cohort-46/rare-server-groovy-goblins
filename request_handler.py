@@ -1,7 +1,7 @@
 from comments.request import create_comment, get_all_comments
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from posts import get_all_posts, get_posts_by_user, create_post
+from posts import get_all_posts, get_posts_by_user, create_post, delete_post
 from users.request import create_user
 from categories import get_all_categories, create_category
 from users import get_all_users, get_user_by_email
@@ -88,7 +88,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                     pass
                 else:
                     response = get_all_posts()
-            
+
             if resource == "users":
                 if id is not None:
                     pass
@@ -101,7 +101,6 @@ class HandleRequests(BaseHTTPRequestHandler):
                     pass
                 else:
                     response = get_all_comments()
-                    
 
             if resource == "employees":
                 if id is not None:
@@ -130,7 +129,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             # email as a filtering value?
             if key == "user_id" and resource == "posts":
                 response = get_posts_by_user(value)
-                
+
             if key == "email" and resource == "users":
                 response = get_user_by_email(value)
 
@@ -143,7 +142,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             if key == "status" and resource == "animals":
                 # response = f"{get_animals_by_status(value)}"
                 pass
-            
+
         self.wfile.write(response.encode())
 
     # Here's a method on the class that overrides the parent's method.
@@ -181,11 +180,10 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "comments":
             new_item = create_comment(post_body)
-            
+
         if resource == "customers":
             # new_item = create_customer(post_body)
             pass
-
 
         self.wfile.write(f"{new_item}".encode())
 
@@ -231,9 +229,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         (resource, id) = self.parse_url(self.path)
 
         # Delete a single animal from the list
-        if resource == "animals":
-            # delete_animal(id)
-            pass
+        if resource == "posts":
+            delete_post(id)
+
         if resource == "locations":
             # delete_location(id)
             pass
