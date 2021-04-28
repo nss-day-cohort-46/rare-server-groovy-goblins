@@ -101,4 +101,4 @@ VALUES(
     DATE(),
     'True'
   );
--- SELECT *  FROM Users;
+SELECT *  FROM Posts;
