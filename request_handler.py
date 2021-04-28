@@ -90,9 +90,8 @@ class HandleRequests(BaseHTTPRequestHandler):
                 if id is not None:
                     # response = get_single_animal(id)
                     pass
-            else:
-                response = get_all_categories()
-
+                else:
+                    response = get_all_categories()
             if resource == "users":
                 if id is not None:
                     # response = get_single_animal(id)

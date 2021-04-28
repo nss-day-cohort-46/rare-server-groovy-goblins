@@ -101,4 +101,27 @@ VALUES(
     DATE(),
     'True'
   );
-SELECT *  FROM Posts;
+INSERT INTO Posts (
+    "user_id",
+    "category_id",
+    "title",
+    "publication_date",
+    "image_url",
+    "content",
+    "approved"
+  )
+VALUES(
+    2,
+    1,
+    "Pug FIRST POST MOOMOOMOO",
+    DATE(),
+    "",
+    "This is a first post",
+    1
+  );
+SELECT *
+FROM Posts;
+SELECT *
+FROM Users;
+SELECT *
+FROM Categories

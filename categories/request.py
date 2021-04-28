@@ -5,7 +5,6 @@ from models import Category
 
 
 def get_all_categories():
-    print("in get all categories")
     with sqlite3.connect("./rare.db") as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
@@ -28,22 +27,10 @@ def get_all_categories():
             )
             categories.append(category.__dict__)
 
-        return json.dumps(categories)
+    return json.dumps(categories)
 
 
 def create_category(new_category):
-    """
-    CREATE TABLE "Categories" (
-        "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-        "label" varchar
-    );
-    INSERT INTO Categories ('label')
-    VALUES ('News');
-    """
-
-    print("creating new category")
-    print(new_category)
-    print(type(new_category))
     with sqlite3.connect("./rare.db") as conn:
         db_cursor = conn.cursor()
 
