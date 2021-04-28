@@ -5,7 +5,6 @@ from models import Category
 
 
 def get_all_categories():
-    print("in get all categories")
     with sqlite3.connect("./rare.db") as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()

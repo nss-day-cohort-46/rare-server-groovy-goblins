@@ -1,3 +1,4 @@
+from comments.request import create_comment, get_all_comments
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from posts import get_all_posts, get_posts_by_user, create_post
@@ -91,13 +92,13 @@ class HandleRequests(BaseHTTPRequestHandler):
                 else:
                     response = get_all_users()
 
-            if resource == "locations":
+            if resource == "comments":
                 if id is not None:
                     # response = get_single_location(id)
                     pass
                 else:
-                    # response = get_all_locations()
-                    pass
+                    response = get_all_comments()
+                    
 
             if resource == "employees":
                 if id is not None:
@@ -175,17 +176,15 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "categories":
             new_item = create_category(post_body)
 
-        if resource == "employees":
-            # new_item = create_employee(post_body)
-            pass
         if resource == "tags":
             new_item = create_tag(post_body)
-
+            
+        if resource == "comments":
+            new_item = create_comment(post_body)
+        
 
         self.wfile.write(f"{new_item}".encode())
 
-    # Here's a method on the class that overrides the parent's method.
-    # It handles any PUT request.
 
     def do_PUT(self):
 
