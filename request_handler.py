@@ -230,9 +230,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         (resource, id) = self.parse_url(self.path)
 
         # Delete a single animal from the list
-        if resource == "category":
+        if resource == "categories":
             delete_category(id)
-            pass
+
         if resource == "locations":
             # delete_location(id)
             pass
