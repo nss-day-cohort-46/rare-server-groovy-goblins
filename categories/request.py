@@ -12,7 +12,8 @@ def get_all_categories():
         db_cursor.execute("""
             SELECT
                 c.id, 
-                c.label
+                c.label,
+                c.deleted
             FROM Categories c
         """)
 
@@ -23,7 +24,8 @@ def get_all_categories():
         for row in data:
             category = Category(
                 row['id'],
-                row['label']
+                row['label'],
+                row['deleted']
             )
             categories.append(category.__dict__)
 
@@ -31,17 +33,29 @@ def get_all_categories():
 
 
 def create_category(new_category):
+
     with sqlite3.connect("./rare.db") as conn:
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
         INSERT INTO Categories( 
-            label
+            label, deleted
         )
-        VALUES ( ? );
+        VALUES ( ?, 0 );
         """, (new_category['label'], ))
 
         id = db_cursor.lastrowid
         new_category['id'] = id
 
     return json.dumps(new_category)
+
+
+def delete_category(id):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        UPDATE Categories
+        SET deleted = 1
+        WHERE id = ?
+        """, (id, ))
