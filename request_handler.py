@@ -5,7 +5,7 @@ from posts import get_all_posts, get_posts_by_user, create_post
 from categories import get_all_categories, create_category, delete_category
 from users import get_all_users, get_user_by_email, create_user
 
-from tags import create_tag
+from tags import create_tag, add_tag_to_post
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -84,7 +84,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                     pass
                 else:
                     response = get_all_posts()
-            
+
             if resource == "users":
                 if id is not None:
                     pass
@@ -97,7 +97,6 @@ class HandleRequests(BaseHTTPRequestHandler):
                     pass
                 else:
                     response = get_all_comments()
-                    
 
             if resource == "employees":
                 if id is not None:
@@ -126,11 +125,11 @@ class HandleRequests(BaseHTTPRequestHandler):
             # email as a filtering value?
             if key == "user_id" and resource == "posts":
                 response = get_posts_by_user(value)
-                
+
             if key == "email" and resource == "users":
                 response = get_user_by_email(value)
 
-            if key == "location_id" and resource == "animals":
+            if key == "location_id" and resource == "posts":
                 # response = get_animals_by_location_id(value)
                 pass
             if key == "location_id" and resource == "employees":
@@ -139,7 +138,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             if key == "status" and resource == "animals":
                 # response = f"{get_animals_by_status(value)}"
                 pass
-            
+
         self.wfile.write(response.encode())
 
     # Here's a method on the class that overrides the parent's method.
@@ -170,20 +169,23 @@ class HandleRequests(BaseHTTPRequestHandler):
             new_item = create_user(post_body)
             # pass
         if resource == "posts":
-            new_item = create_post(post_body)
+            if 'tag_id' in post_body:
+                # Not updating post object so no need to put this call in PUT
+                # For now, POST request in Postman only
+                new_item = add_tag_to_post(post_body)
+            else:
+                new_item = create_post(post_body)
             # pass
         if resource == "categories":
             new_item = create_category(post_body)
 
         if resource == "tags":
             new_item = create_tag(post_body)
-            
+
         if resource == "comments":
             new_item = create_comment(post_body)
-        
 
         self.wfile.write(f"{new_item}".encode())
-
 
     def do_PUT(self):
 
