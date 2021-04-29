@@ -198,7 +198,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         success = False
         # Delete a single animal from the list
         if resource == "posts":
-            edit_post(id, post_body)
+            success = edit_post(id, post_body)
         if resource == "customers":
             # update_customer(id, post_body)
             pass
