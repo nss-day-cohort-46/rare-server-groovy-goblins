@@ -135,5 +135,4 @@ VALUES(
   );
 -- SELECT *  FROM Users;
 -- SELECT * From Categories;
-SELECT *
-FROM Posts;
+-- SELECT * FROM Posts;
