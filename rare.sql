@@ -97,5 +97,5 @@ VALUES(
     'post content',
     true
   );
+SELECT *  FROM Categories;
 -- SELECT *  FROM Users;
-SELECT * From Categories;
