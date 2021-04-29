@@ -2,7 +2,7 @@ from comments.request import create_comment, get_all_comments
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from posts import get_all_posts, get_posts_by_user, create_post, get_single_post
-from categories import get_all_categories, create_category
+from categories import get_all_categories, create_category, delete_category
 from users import get_all_users, get_user_by_email, create_user
 
 from tags import create_tag
@@ -224,9 +224,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         (resource, id) = self.parse_url(self.path)
 
         # Delete a single animal from the list
-        if resource == "animals":
-            # delete_animal(id)
-            pass
+        if resource == "categories":
+            delete_category(id)
+
         if resource == "locations":
             # delete_location(id)
             pass

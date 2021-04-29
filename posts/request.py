@@ -24,6 +24,9 @@ def get_all_posts():
         FROM posts p
         JOIN users u ON u.id = p.user_id
         JOIN Categories c ON c.id = p.category_id
+        WHERE p.approved = 1
+        AND p.publication_date < date('now')
+        ORDER BY p.publication_date
         """)
 
         posts = []
@@ -35,6 +38,13 @@ def get_all_posts():
             post = Post(row['id'], row['user_id'], row['category_id'],
                         row['title'], row['publication_date'], row['content'],
                         row['approved'])
+
+            author = User(first_name = row['first_name'], last_name = row['last_name'])
+            category = Category(row['category_id'], row['label'])
+
+            post.author = author.__dict__
+            post.category = category.__dict__
+
 
             posts.append(post.__dict__)
 
@@ -63,6 +73,8 @@ def get_posts_by_user(user_id):
         JOIN users u ON u.id = p.user_id
         JOIN Categories c ON c.id = p.category_id
         WHERE p.user_id = ?
+        ORDER BY p.publication_date
+
         """, (user_id))
 
         posts = []
