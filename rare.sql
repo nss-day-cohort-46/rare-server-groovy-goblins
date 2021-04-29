@@ -98,4 +98,4 @@ VALUES(
     true
   );
 -- SELECT *  FROM Users;
-SELECT * From Categories;
+SELECT * From Users;
