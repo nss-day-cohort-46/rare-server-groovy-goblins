@@ -16,3 +16,6 @@ def create_tag(new_tag):
         new_tag['id'] = id
     
     return json.dumps(new_tag)
+
+def update_tag(id, new_tag):
+    pass

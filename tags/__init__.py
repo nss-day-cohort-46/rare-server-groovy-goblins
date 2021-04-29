@@ -1,1 +1,1 @@
-from .request import create_tag
+from .request import create_tag, update_tag
