@@ -220,8 +220,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         else:
             self._set_headers(404)
 
-        # Encode the new animal and send in response
-        self.wfile.write("".encode())
+            # Encode the new animal and send in response
+            self.wfile.write("".encode())
 
     def do_DELETE(self):
         # Set a 204 response code
