@@ -179,6 +179,10 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "comments":
             new_item = create_comment(post_body)
 
+        if resource == "customers":
+            # new_item = create_customer(post_body)
+            pass
+
         self.wfile.write(f"{new_item}".encode())
 
     def do_PUT(self):

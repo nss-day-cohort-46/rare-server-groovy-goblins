@@ -20,7 +20,8 @@ def get_all_posts():
             p.approved,
             u.first_name, 
             u.last_name,
-            c.label
+            c.label,
+            c.deleted
         FROM posts p
         JOIN users u ON u.id = p.user_id
         JOIN Categories c ON c.id = p.category_id
@@ -39,12 +40,13 @@ def get_all_posts():
                         row['title'], row['publication_date'], row['content'],
                         row['approved'])
 
-            author = User(first_name = row['first_name'], last_name = row['last_name'])
-            category = Category(row['category_id'], row['label'])
+            author = User(first_name=row['first_name'],
+                          last_name=row['last_name'])
+            category = Category(row['category_id'],
+                                row['label'], row['deleted'])
 
             post.author = author.__dict__
             post.category = category.__dict__
-
 
             posts.append(post.__dict__)
 
@@ -68,7 +70,8 @@ def get_posts_by_user(user_id):
             p.approved,
             u.first_name, 
             u.last_name,
-            c.label
+            c.label,
+            c.deleted
         FROM posts p
         JOIN users u ON u.id = p.user_id
         JOIN Categories c ON c.id = p.category_id
@@ -89,7 +92,8 @@ def get_posts_by_user(user_id):
 
             author = User(first_name=row['first_name'],
                           last_name=row['last_name'])
-            category = Category(row['category_id'], row['label'])
+            category = Category(row['category_id'],
+                                row['label'], row['deleted'])
 
             post.author = author.__dict__
             post.category = category.__dict__
