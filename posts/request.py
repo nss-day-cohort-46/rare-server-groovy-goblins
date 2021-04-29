@@ -138,7 +138,8 @@ def get_single_post(id):
             p.approved,
             u.first_name, 
             u.last_name,
-            c.label
+            c.label,
+            c.deleted
         FROM Posts p
         JOIN Users u ON u.id = p.user_id
         JOIN Categories c ON c.id = p.category_id
@@ -163,7 +164,8 @@ def get_single_post(id):
 
         category = Category(
             data['category_id'], 
-            data['label'])
+            data['label'],
+            data['deleted'])
 
         post.user = user.__dict__
         post.category = category.__dict__
