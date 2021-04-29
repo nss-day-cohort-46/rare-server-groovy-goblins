@@ -18,4 +18,19 @@ def create_tag(new_tag):
     return json.dumps(new_tag)
 
 def update_tag(id, new_tag):
-    pass
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        UPDATE Tags
+            SET
+                label = ?
+        WHERE id = ?
+        """, ( new_tag['label'], id ))
+
+        rows_affected = db_cursor.rowcount
+
+    if rows_affected == 0:
+        return False
+    else:
+        return True
