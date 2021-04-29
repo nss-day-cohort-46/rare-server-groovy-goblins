@@ -110,8 +110,8 @@ def create_post(new_post):
         VALUES
             ( ?, ?, ?, DATETIME(), ?, ?, 1);
         """, (
-            new_post['user_id'], 
-            new_post['category_id'], 
+            new_post['user_id'],
+            new_post['category_id'],
             new_post['title'],
             new_post['image_url'],
             new_post['content'], )
@@ -121,15 +121,3 @@ def create_post(new_post):
         new_post['id'] = id
 
     return json.dumps(new_post)
-
-
-#     CREATE TABLE "Posts" (
-#   "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-#   "user_id" INTEGER,
-#   "category_id" INTEGER,
-#   "title" varchar,
-#   "publication_date" date,
-#   "image_url" varchar,
-#   "content" varchar,
-#   "approved" bit
-# );

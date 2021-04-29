@@ -84,7 +84,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                     pass
                 else:
                     response = get_all_posts()
-            
+
             if resource == "users":
                 if id is not None:
                     pass
@@ -97,7 +97,6 @@ class HandleRequests(BaseHTTPRequestHandler):
                     pass
                 else:
                     response = get_all_comments()
-                    
 
             if resource == "employees":
                 if id is not None:
@@ -126,7 +125,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             # email as a filtering value?
             if key == "user_id" and resource == "posts":
                 response = get_posts_by_user(value)
-                
+
             if key == "email" and resource == "users":
                 response = get_user_by_email(value)
 
@@ -139,7 +138,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             if key == "status" and resource == "animals":
                 # response = f"{get_animals_by_status(value)}"
                 pass
-            
+
         self.wfile.write(response.encode())
 
     # Here's a method on the class that overrides the parent's method.
@@ -177,13 +176,15 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "tags":
             new_item = create_tag(post_body)
-            
+
         if resource == "comments":
             new_item = create_comment(post_body)
-        
+
+        if resource == "customers":
+            # new_item = create_customer(post_body)
+            pass
 
         self.wfile.write(f"{new_item}".encode())
-
 
     def do_PUT(self):
 
