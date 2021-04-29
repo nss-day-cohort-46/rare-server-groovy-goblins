@@ -40,12 +40,13 @@ def get_all_posts():
                         row['title'], row['publication_date'], row['content'],
                         row['approved'])
 
-            author = User(first_name = row['first_name'], last_name = row['last_name'])
-            category = Category(row['category_id'], row['label'], row['deleted'])
+            author = User(first_name=row['first_name'],
+                          last_name=row['last_name'])
+            category = Category(row['category_id'],
+                                row['label'], row['deleted'])
 
             post.author = author.__dict__
             post.category = category.__dict__
-
 
             posts.append(post.__dict__)
 
@@ -89,8 +90,10 @@ def get_posts_by_user(user_id):
                         row['title'], row['publication_date'], row['content'],
                         row['approved'])
 
-            author = User(first_name = row['first_name'], last_name = row['last_name'])
-            category = Category(row['category_id'], row['label'], row['deleted'])
+            author = User(first_name=row['first_name'],
+                          last_name=row['last_name'])
+            category = Category(row['category_id'],
+                                row['label'], row['deleted'])
 
             post.author = author.__dict__
             post.category = category.__dict__
@@ -121,3 +124,14 @@ def create_post(new_post):
         new_post['id'] = id
 
     return json.dumps(new_post)
+
+
+def delete_post(id):
+    print("I never get here")
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+            DELETE FROM Posts
+            WHERE id = ?
+        """, (id, ))
