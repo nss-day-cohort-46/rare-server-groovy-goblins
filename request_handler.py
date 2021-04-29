@@ -1,3 +1,4 @@
+from comments.request import create_comment, get_all_comments
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from posts import get_all_posts, get_posts_by_user, create_post
@@ -5,10 +6,7 @@ from users.request import create_user
 from categories import get_all_categories, create_category
 from users import get_all_users, get_user_by_email
 
-# Here's a class. It inherits from another class.
-# For now, think of a class as a container for functions that
-# work together for a common purpose. In this case, that
-# common purpose is to respond to HTTP requests from a client.
+from tags import create_tag
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -78,8 +76,8 @@ class HandleRequests(BaseHTTPRequestHandler):
                 if id is not None:
                     # response = get_single_animal(id)
                     pass
-            else:
-                response = get_all_categories()
+                else:
+                    response = get_all_categories()
 
             if resource == "posts":
                 if id is not None:
@@ -94,13 +92,13 @@ class HandleRequests(BaseHTTPRequestHandler):
                 else:
                     response = get_all_users()
 
-            if resource == "locations":
+            if resource == "comments":
                 if id is not None:
                     # response = get_single_location(id)
                     pass
                 else:
-                    # response = get_all_locations()
-                    pass
+                    response = get_all_comments()
+                    
 
             if resource == "employees":
                 if id is not None:
@@ -178,18 +176,15 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "categories":
             new_item = create_category(post_body)
 
-        if resource == "employees":
-            # new_item = create_employee(post_body)
-            pass
-        if resource == "customers":
-            # new_item = create_customer(post_body)
-            pass
-
+        if resource == "tags":
+            new_item = create_tag(post_body)
+            
+        if resource == "comments":
+            new_item = create_comment(post_body)
+        
 
         self.wfile.write(f"{new_item}".encode())
 
-    # Here's a method on the class that overrides the parent's method.
-    # It handles any PUT request.
 
     def do_PUT(self):
 
