@@ -11,14 +11,14 @@ def get_all_posts():
 
         db_cursor.execute("""
         SELECT
-            p.id, 
-            p.user_id, 
+            p.id,
+            p.user_id,
             p.category_id,
             p.title,
             p.publication_date,
             p.content,
             p.approved,
-            u.first_name, 
+            u.first_name,
             u.last_name,
             c.label,
             c.deleted
