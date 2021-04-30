@@ -2,8 +2,8 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from categories import get_all_categories, create_category, delete_category
 from comments import create_comment, get_all_comments
-from posts import get_all_posts, get_posts_by_user, create_post, delete_post
-from tags import create_tag, update_tag
+from posts import get_all_posts, get_posts_by_user, create_post, get_single_post, delete_post, edit_post
+from tags import create_tag, update_tag, add_tag_to_post
 from users import get_all_users, get_user_by_email, create_user
 
 
@@ -79,7 +79,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             if resource == "posts":
                 if id is not None:
-                    # response = get_single_post(id)
+                    response = get_single_post(id)
                     pass
                 else:
                     response = get_all_posts()
@@ -128,7 +128,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             if key == "email" and resource == "users":
                 response = get_user_by_email(value)
 
-            if key == "location_id" and resource == "animals":
+            if key == "location_id" and resource == "posts":
                 # response = get_animals_by_location_id(value)
                 pass
             if key == "location_id" and resource == "employees":
@@ -165,7 +165,12 @@ class HandleRequests(BaseHTTPRequestHandler):
             new_item = create_user(post_body)
             # pass
         if resource == "posts":
-            new_item = create_post(post_body)
+            if 'tag_id' in post_body:
+                # Not updating post object so no need to put this call in PUT
+                # For now, POST request in Postman only
+                new_item = add_tag_to_post(post_body)
+            else:
+                new_item = create_post(post_body)
             # pass
         if resource == "categories":
             new_item = create_category(post_body)
@@ -195,6 +200,19 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "tags":
             success = update_tag(id, post_body)
+        # Delete a single animal from the list
+        if resource == "posts":
+            success = edit_post(id, post_body)
+            
+        if resource == "customers":
+            # update_customer(id, post_body)
+            pass
+        if resource == "employees":
+            # update_employee(id, post_body)
+            pass
+        if resource == "locations":
+            # update_location(id, post_body)
+            pass
 
         if success:
             self._set_headers(204)
