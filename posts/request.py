@@ -150,7 +150,57 @@ def edit_post(id, new_post):
         else:
             # Forces 204 response by main module
             return True
+def get_single_post(id):
+    with sqlite3.connect("./rare.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
 
+        db_cursor.execute("""
+        SELECT
+            p.id, 
+            p.user_id, 
+            p.category_id,
+            p.title,
+            p.publication_date,
+            p.content,
+            p.image_url,
+            p.approved,
+            u.first_name, 
+            u.last_name,
+            c.label,
+            c.deleted
+        FROM Posts p
+        JOIN Users u ON u.id = p.user_id
+        JOIN Categories c ON c.id = p.category_id
+        WHERE p.id = ?
+        """, (id, ))
+
+        data = db_cursor.fetchone()
+
+        post = Post(
+            data['id'], 
+            data['user_id'], 
+            data['category_id'],
+            data['title'], 
+            data['publication_date'], 
+            data['content'],
+            data['approved'],
+            data['image_url'])
+
+        user = User(
+            data['user_id'],
+            data['first_name'], 
+            data['last_name'])
+
+        category = Category(
+            data['category_id'], 
+            data['label'],
+            data['deleted'])
+
+        post.user = user.__dict__
+        post.category = category.__dict__
+
+    return json.dumps(post.__dict__)
 def delete_post(id):
     print("I never get here")
     with sqlite3.connect("./rare.db") as conn:
