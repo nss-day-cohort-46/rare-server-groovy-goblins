@@ -1,3 +1,6 @@
+from tags import create_tag
+from categories import get_all_categories, create_category, delete_category
+from tags import create_tag, add_tag_to_post
 from comments.request import create_comment, get_all_comments
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -128,7 +131,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             if key == "email" and resource == "users":
                 response = get_user_by_email(value)
 
-            if key == "location_id" and resource == "animals":
+            if key == "location_id" and resource == "posts":
                 # response = get_animals_by_location_id(value)
                 pass
             if key == "location_id" and resource == "employees":
@@ -168,7 +171,12 @@ class HandleRequests(BaseHTTPRequestHandler):
             new_item = create_user(post_body)
             # pass
         if resource == "posts":
-            new_item = create_post(post_body)
+            if 'tag_id' in post_body:
+                # Not updating post object so no need to put this call in PUT
+                # For now, POST request in Postman only
+                new_item = add_tag_to_post(post_body)
+            else:
+                new_item = create_post(post_body)
             # pass
         if resource == "categories":
             new_item = create_category(post_body)
