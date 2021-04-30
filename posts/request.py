@@ -40,12 +40,13 @@ def get_all_posts():
                         row['title'], row['publication_date'], row['content'],
                         row['approved'])
 
-            author = User(first_name = row['first_name'], last_name = row['last_name'])
-            category = Category(row['category_id'], row['label'], row['deleted'])
+            author = User(first_name=row['first_name'],
+                          last_name=row['last_name'])
+            category = Category(row['category_id'],
+                                row['label'], row['deleted'])
 
             post.author = author.__dict__
             post.category = category.__dict__
-
 
             posts.append(post.__dict__)
 
@@ -89,8 +90,10 @@ def get_posts_by_user(user_id):
                         row['title'], row['publication_date'], row['content'],
                         row['approved'])
 
-            author = User(first_name = row['first_name'], last_name = row['last_name'])
-            category = Category(row['category_id'], row['label'], row['deleted'])
+            author = User(first_name=row['first_name'],
+                          last_name=row['last_name'])
+            category = Category(row['category_id'],
+                                row['label'], row['deleted'])
 
             post.author = author.__dict__
             post.category = category.__dict__
@@ -110,8 +113,8 @@ def create_post(new_post):
         VALUES
             ( ?, ?, ?, DATETIME(), ?, ?, 1);
         """, (
-            new_post['user_id'], 
-            new_post['category_id'], 
+            new_post['user_id'],
+            new_post['category_id'],
             new_post['title'],
             new_post['image_url'],
             new_post['content'], )
@@ -121,18 +124,6 @@ def create_post(new_post):
         new_post['id'] = id
 
     return json.dumps(new_post)
-
-
-#     CREATE TABLE "Posts" (
-#   "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-#   "user_id" INTEGER,
-#   "category_id" INTEGER,
-#   "title" varchar,
-#   "publication_date" date,
-#   "image_url" varchar,
-#   "content" varchar,
-#   "approved" bit
-# );
 
 def edit_post(id, new_post):
     with sqlite3.connect("./rare.db") as conn:
