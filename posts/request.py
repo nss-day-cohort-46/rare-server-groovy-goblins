@@ -124,3 +124,14 @@ def create_post(new_post):
         new_post['id'] = id
 
     return json.dumps(new_post)
+
+
+def delete_post(id):
+    print("I never get here")
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+            DELETE FROM Posts
+            WHERE id = ?
+        """, (id, ))

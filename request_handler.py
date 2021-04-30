@@ -1,11 +1,11 @@
+from tags import create_tag
+from categories import get_all_categories, create_category, delete_category
+from tags import create_tag, add_tag_to_post
 from comments.request import create_comment, get_all_comments
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from posts import get_all_posts, get_posts_by_user, create_post
-from categories import get_all_categories, create_category, delete_category
+from posts import get_all_posts, get_posts_by_user, create_post, delete_post
 from users import get_all_users, get_user_by_email, create_user
-
-from tags import create_tag, add_tag_to_post
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -185,6 +185,10 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "comments":
             new_item = create_comment(post_body)
 
+        if resource == "customers":
+            # new_item = create_customer(post_body)
+            pass
+
         self.wfile.write(f"{new_item}".encode())
 
     def do_PUT(self):
@@ -226,6 +230,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         (resource, id) = self.parse_url(self.path)
 
         # Delete a single animal from the list
+        if resource == "posts":
+            delete_post(id)
         if resource == "categories":
             delete_category(id)
 
