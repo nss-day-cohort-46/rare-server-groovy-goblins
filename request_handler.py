@@ -1,10 +1,10 @@
-from comments.request import create_comment, get_all_comments
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from posts import get_all_posts, get_posts_by_user, create_post, delete_post
-from users import get_all_users, get_user_by_email, create_user
 from categories import get_all_categories, create_category, delete_category
-from tags import create_tag
+from comments import create_comment, get_all_comments
+from posts import get_all_posts, get_posts_by_user, create_post, get_single_post, delete_post, edit_post
+from tags import create_tag, update_tag, add_tag_to_post
+from users import get_all_users, get_user_by_email, create_user
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -71,7 +71,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             if resource == "posts":
                 if id is not None:
-                    # response = get_single_post(id)
+                    response = get_single_post(id)
                     pass
                 else:
                     response = get_all_posts()
@@ -127,8 +127,13 @@ class HandleRequests(BaseHTTPRequestHandler):
             new_item = create_user(post_body)
 
         if resource == "posts":
-            new_item = create_post(post_body)
-        
+            if 'tag_id' in post_body:
+                # Not updating post object so no need to put this call in PUT
+                # For now, POST request in Postman only
+                new_item = add_tag_to_post(post_body)
+            else:
+                new_item = create_post(post_body)
+            # pass
         if resource == "categories":
             new_item = create_category(post_body)
 
@@ -148,11 +153,14 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # Parse the URL
         (resource, id) = self.parse_url(self.path)
+        
         success = False
 
-        # if resource == "posts":
-            # update_post(id, post_body)
-            # pass
+        if resource == "tags":
+            success = update_tag(id, post_body)
+
+        if resource == "posts":
+            success = edit_post(id, post_body)
 
         if success:
             self._set_headers(204)

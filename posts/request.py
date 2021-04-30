@@ -11,14 +11,14 @@ def get_all_posts():
 
         db_cursor.execute("""
         SELECT
-            p.id, 
-            p.user_id, 
+            p.id,
+            p.user_id,
             p.category_id,
             p.title,
             p.publication_date,
             p.content,
             p.approved,
-            u.first_name, 
+            u.first_name,
             u.last_name,
             c.label,
             c.deleted
@@ -125,7 +125,82 @@ def create_post(new_post):
 
     return json.dumps(new_post)
 
+def edit_post(id, new_post):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
 
+        db_cursor.execute("""
+        UPDATE Posts
+            SET
+                title = ?,
+                content = ?,
+                category_id = ?,
+                image_url = ?
+        WHERE id = ?
+        """, (new_post['title'], new_post['content'],
+              new_post['category_id'], new_post['image_url'], id, ))
+
+        # Were any rows affected?
+        # Did the client send an `id` that exists?
+        rows_affected = db_cursor.rowcount
+
+        if rows_affected == 0:
+            # Forces 404 response by main module
+            return False
+        else:
+            # Forces 204 response by main module
+            return True
+def get_single_post(id):
+    with sqlite3.connect("./rare.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        SELECT
+            p.id, 
+            p.user_id, 
+            p.category_id,
+            p.title,
+            p.publication_date,
+            p.content,
+            p.image_url,
+            p.approved,
+            u.first_name, 
+            u.last_name,
+            c.label,
+            c.deleted
+        FROM Posts p
+        JOIN Users u ON u.id = p.user_id
+        JOIN Categories c ON c.id = p.category_id
+        WHERE p.id = ?
+        """, (id, ))
+
+        data = db_cursor.fetchone()
+
+        post = Post(
+            data['id'], 
+            data['user_id'], 
+            data['category_id'],
+            data['title'], 
+            data['publication_date'], 
+            data['content'],
+            data['approved'],
+            data['image_url'])
+
+        user = User(
+            data['user_id'],
+            data['first_name'], 
+            data['last_name'])
+
+        category = Category(
+            data['category_id'], 
+            data['label'],
+            data['deleted'])
+
+        post.user = user.__dict__
+        post.category = category.__dict__
+
+    return json.dumps(post.__dict__)
 def delete_post(id):
     print("I never get here")
     with sqlite3.connect("./rare.db") as conn:
