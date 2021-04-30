@@ -4,8 +4,10 @@ from tags import create_tag, add_tag_to_post
 from comments.request import create_comment, get_all_comments
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from posts import get_all_posts, get_posts_by_user, create_post, delete_post
+from posts import get_all_posts, get_posts_by_user, create_post, get_single_post, delete_post
+from categories import get_all_categories, create_category, delete_category
 from users import get_all_users, get_user_by_email, create_user
+from tags import create_tag
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -80,7 +82,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             if resource == "posts":
                 if id is not None:
-                    # response = get_single_post(id)
+                    response = get_single_post(id)
                     pass
                 else:
                     response = get_all_posts()
