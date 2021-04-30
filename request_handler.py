@@ -14,13 +14,11 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # Check if there is a query string parameter
         if "?" in resource:
-            # GIVEN: /customers?email=jenna@solis.com
-
-            param = resource.split("?")[1]  # email=jenna@solis.com
-            resource = resource.split("?")[0]  # 'customers'
-            pair = param.split("=")  # [ 'email', 'jenna@solis.com' ]
-            key = pair[0]  # 'email'
-            value = pair[1]  # 'jenna@solis.com'
+            param = resource.split("?")[1]  
+            resource = resource.split("?")[0]  
+            pair = param.split("=")  
+            key = pair[0] 
+            value = pair[1]  
 
             return (resource, key, value)
 
@@ -31,9 +29,9 @@ class HandleRequests(BaseHTTPRequestHandler):
             try:
                 id = int(path_params[2])
             except IndexError:
-                pass  # No route parameter exists: /animals
+                pass  
             except ValueError:
-                pass  # Request had trailing slash: /animals/
+                pass 
 
             return (resource, id)
 
@@ -64,18 +62,12 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Parse URL and store entire tuple in a variable
         parsed = self.parse_url(self.path)
 
-        # Response from parse_url() is a tuple with 2
-        # items in it, which means the request was for
-        # `/animals` or `/animals/2`
+
         if len(parsed) == 2:
             (resource, id) = parsed
 
             if resource == "categories":
-                if id is not None:
-                    # response = get_single_animal(id)
-                    pass
-                else:
-                    response = get_all_categories()
+                response = get_all_categories()
 
             if resource == "posts":
                 if id is not None:
@@ -92,26 +84,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             if resource == "comments":
                 if id is not None:
-                    # response = get_single_location(id)
                     pass
                 else:
                     response = get_all_comments()
-
-            if resource == "employees":
-                if id is not None:
-                    # response = get_single_employee(id)
-                    pass
-                else:
-                    # response = get_all_employees()
-                    pass
-
-            if resource == "customers":
-                if id is not None:
-                    # response = get_single_customer(id)
-                    pass
-                else:
-                    # response = get_all_customers()
-                    pass
 
         # Response from parse_url() is a tuple with 3
         # items in it, which means the request was for
@@ -119,24 +94,12 @@ class HandleRequests(BaseHTTPRequestHandler):
         elif len(parsed) == 3:
             (resource, key, value) = parsed
 
-            # Is the resource `customers` and was there a
-            # query parameter that specified the customer
-            # email as a filtering value?
             if key == "user_id" and resource == "posts":
                 response = get_posts_by_user(value)
 
             if key == "email" and resource == "users":
                 response = get_user_by_email(value)
 
-            if key == "location_id" and resource == "animals":
-                # response = get_animals_by_location_id(value)
-                pass
-            if key == "location_id" and resource == "employees":
-                # response = get_employees_by_location_id(value)
-                pass
-            if key == "status" and resource == "animals":
-                # response = f"{get_animals_by_status(value)}"
-                pass
 
         self.wfile.write(response.encode())
 
@@ -157,19 +120,15 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Initialize new item
         new_item = None
 
-        # Add a new animal to the list. Don't worry about
-        # the orange squiggle, you'll define the create_animal
-        # function next.
-
         if resource == "login":
             new_item = get_user_by_email(post_body)
 
         if resource == "register":
             new_item = create_user(post_body)
-            # pass
+
         if resource == "posts":
             new_item = create_post(post_body)
-            # pass
+        
         if resource == "categories":
             new_item = create_category(post_body)
 
@@ -178,10 +137,6 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "comments":
             new_item = create_comment(post_body)
-
-        if resource == "customers":
-            # new_item = create_customer(post_body)
-            pass
 
         self.wfile.write(f"{new_item}".encode())
 
@@ -194,26 +149,17 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Parse the URL
         (resource, id) = self.parse_url(self.path)
         success = False
-        # Delete a single animal from the list
-        if resource == "animals":
-            # update_animal(id, post_body)
-            pass
-        if resource == "customers":
-            # update_customer(id, post_body)
-            pass
-        if resource == "employees":
-            # update_employee(id, post_body)
-            pass
-        if resource == "locations":
-            # update_location(id, post_body)
-            pass
+
+        # if resource == "posts":
+            # update_post(id, post_body)
+            # pass
 
         if success:
             self._set_headers(204)
         else:
             self._set_headers(404)
 
-        # Encode the new animal and send in response
+        # Encode the new resource and send in response
         self.wfile.write("".encode())
 
     def do_DELETE(self):
@@ -226,25 +172,14 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Delete a single animal from the list
         if resource == "posts":
             delete_post(id)
+
         if resource == "categories":
             delete_category(id)
 
-        if resource == "locations":
-            # delete_location(id)
-            pass
-        if resource == "employees":
-            # delete_employee(id)
-            pass
-        if resource == "customers":
-            # delete_customer(id)
-            pass
-
-        # Encode the new animal and send in response
         self.wfile.write("".encode())
 
 # This function is not inside the class. It is the starting
 # point of this application.
-
 
 def main():
     host = ''
