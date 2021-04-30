@@ -1,14 +1,10 @@
-
-from tags import create_tag
-from categories import get_all_categories, create_category, delete_category
-from tags import create_tag, add_tag_to_post
-from comments.request import create_comment, get_all_comments
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from posts import get_all_posts, get_posts_by_user, create_post, get_single_post, delete_post, edit_post
 from categories import get_all_categories, create_category, delete_category
+from comments import create_comment, get_all_comments
+from posts import get_all_posts, get_posts_by_user, create_post, get_single_post, delete_post, edit_post
+from tags import create_tag, update_tag, add_tag_to_post
 from users import get_all_users, get_user_by_email, create_user
-from tags import create_tag
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -161,9 +157,6 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Initialize new item
         new_item = None
 
-        # Add a new animal to the list. Don't worry about
-        # the orange squiggle, you'll define the create_animal
-        # function next.
 
         if resource == "login":
             new_item = get_user_by_email(post_body)
@@ -202,10 +195,15 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # Parse the URL
         (resource, id) = self.parse_url(self.path)
+        
         success = False
+
+        if resource == "tags":
+            success = update_tag(id, post_body)
         # Delete a single animal from the list
         if resource == "posts":
             success = edit_post(id, post_body)
+            
         if resource == "customers":
             # update_customer(id, post_body)
             pass
@@ -221,8 +219,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         else:
             self._set_headers(404)
 
-            # Encode the new animal and send in response
-            self.wfile.write("".encode())
+        self.wfile.write("".encode())
 
     def do_DELETE(self):
         # Set a 204 response code
