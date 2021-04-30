@@ -1,10 +1,11 @@
+
 from tags import create_tag
 from categories import get_all_categories, create_category, delete_category
 from tags import create_tag, add_tag_to_post
 from comments.request import create_comment, get_all_comments
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from posts import get_all_posts, get_posts_by_user, create_post, get_single_post, delete_post
+from posts import get_all_posts, get_posts_by_user, create_post, get_single_post, delete_post, edit_post
 from categories import get_all_categories, create_category, delete_category
 from users import get_all_users, get_user_by_email, create_user
 from tags import create_tag
@@ -203,9 +204,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         (resource, id) = self.parse_url(self.path)
         success = False
         # Delete a single animal from the list
-        if resource == "animals":
-            # update_animal(id, post_body)
-            pass
+        if resource == "posts":
+            success = edit_post(id, post_body)
         if resource == "customers":
             # update_customer(id, post_body)
             pass
@@ -221,8 +221,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         else:
             self._set_headers(404)
 
-        # Encode the new animal and send in response
-        self.wfile.write("".encode())
+            # Encode the new animal and send in response
+            self.wfile.write("".encode())
 
     def do_DELETE(self):
         # Set a 204 response code

@@ -26,7 +26,7 @@ def get_all_posts():
         JOIN users u ON u.id = p.user_id
         JOIN Categories c ON c.id = p.category_id
         WHERE p.approved = 1
-        AND p.publication_date < date('now')
+        AND p.publication_date < DATETIME()
         ORDER BY p.publication_date
         """)
 
@@ -125,6 +125,31 @@ def create_post(new_post):
 
     return json.dumps(new_post)
 
+def edit_post(id, new_post):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        UPDATE Posts
+            SET
+                title = ?,
+                content = ?,
+                category_id = ?,
+                image_url = ?
+        WHERE id = ?
+        """, (new_post['title'], new_post['content'],
+              new_post['category_id'], new_post['image_url'], id, ))
+
+        # Were any rows affected?
+        # Did the client send an `id` that exists?
+        rows_affected = db_cursor.rowcount
+
+        if rows_affected == 0:
+            # Forces 404 response by main module
+            return False
+        else:
+            # Forces 204 response by main module
+            return True
 def get_single_post(id):
     with sqlite3.connect("./rare.db") as conn:
         conn.row_factory = sqlite3.Row
