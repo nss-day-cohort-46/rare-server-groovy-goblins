@@ -138,6 +138,7 @@ def get_single_post(id):
             p.title,
             p.publication_date,
             p.content,
+            p.image_url,
             p.approved,
             u.first_name, 
             u.last_name,
@@ -158,7 +159,8 @@ def get_single_post(id):
             data['title'], 
             data['publication_date'], 
             data['content'],
-            data['approved'])
+            data['approved'],
+            data['image_url'])
 
         user = User(
             data['user_id'],
